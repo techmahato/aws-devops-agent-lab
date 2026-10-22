@@ -1,0 +1,34 @@
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+crash.log
+crash.*.log
+
+# Variable files that may contain sensitive values
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+
+# Plan output files
+*.tfplan
+tfplan
+plan.out
+
+# CLI config and overrides
+.terraformrc
+terraform.rc
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Lock file is kept (recommended), do NOT ignore it:
+# .terraform.lock.hcl
+
+# Credentials / secrets
+*.pem
+*.key
+.env
+credentials

@@ -1,0 +1,37 @@
+# Copy to terraform.tfvars and adjust as needed.
+# terraform.tfvars is gitignored - never commit real values, state, or secrets.
+
+region             = "ap-south-1"
+cluster_name       = "handsome-eks"
+kubernetes_version = "1.31"
+
+# Networking (defaults do not overlap the Bastion default VPC 172.31.0.0/16)
+vpc_name             = "K8s-VPC"
+vpc_cidr             = "10.20.0.0/16"
+azs                  = ["ap-south-1a", "ap-south-1b"]
+public_subnet_cidrs  = ["10.20.0.0/20", "10.20.16.0/20"]
+private_subnet_cidrs = ["10.20.32.0/20", "10.20.48.0/20"]
+
+# Keep false to avoid recurring NAT cost; private egress via VPC endpoints.
+enable_nat_gateway = false
+
+# EKS API endpoint
+cluster_endpoint_public_access       = true
+cluster_endpoint_private_access      = true
+cluster_endpoint_public_access_cidrs = ["0.0.0.0/0"] # lab requirement; tighten for production
+
+# Managed node group
+node_instance_types = ["t3.small"]
+node_desired_size   = 2
+node_min_size       = 2
+node_max_size       = 3
+node_disk_size      = 20
+node_capacity_type  = "ON_DEMAND"
+
+# Control plane logging
+cluster_enabled_log_types  = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
+cluster_log_retention_days = 14
+
+# Role granted cluster-admin via EKS access entry.
+# Leave empty to auto-detect the caller, or pin explicitly, e.g.:
+bastion_admin_role_arn = "arn:aws:iam::100995727394:role/Custom-temp-Role"
